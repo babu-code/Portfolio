@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antony Kiplimo | Full Stack Developer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --secondary: #7b2dff;
+            --dark: #0a0a0f;
+            --darker: #050508;
+            --light: #f0f0f0;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+        
+        .card {
+            background: rgba(10, 10, 15, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 240, 255, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .skill-item {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+            transition: 0.5s;
+        }
+        
+        .skill-item:hover::before {
+            left: 100%;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+        }
+        
+        .avatar {
+            border: 2px solid transparent;
+            background: linear-gradient(var(--dark), var(--dark)) padding-box,
+                        linear-gradient(135deg, var(--primary), var(--secondary)) border-box;
+        }
+        
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-glow::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(transparent, rgba(0, 240, 255, 0.3), transparent);
+            transform: rotate(45deg);
+            animation: glow 3s linear infinite;
+        }
+        
+        @keyframes glow {
+            0% { left: -50%; top: -50%; }
+            100% { left: 150%; top: 150%; }
+        }
+        
+        .typewriter {
+            border-right: 2px solid var(--primary);
+            animation: blink 0.75s step-end infinite;
+        }
+        
+        @keyframes blink {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary); }
+        }
+        
+        .floating-label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            transform-origin: left top;
+        }
+        
+        .form-input:focus + .floating-label,
+        .form-input:not(:placeholder-shown) + .floating-label {
+            transform: translateY(-20px) scale(0.8);
+            color: var(--primary);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .active::after {
+            width: 100%;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .project-modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .project-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black bg-opacity-80 backdrop-filter backdrop-blur-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold gradient-text">My Portfolio</a>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link active text-white">Home</a>
+                    <a href="#about" class="nav-link text-white">About</a>
+                    <a href="#skills" class="nav-link text-white">Skills</a>
+                    <a href="#portfolio" class="nav-link text-white">Portfolio</a>
+                    <a href="#experience" class="nav-link text-white">Experience</a>
+                    <a href="#contact" class="nav-link text-white">Contact</a>
+                </div>
+                <button class="md:hidden text-white focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-black opacity-70"></div>
+            <div class="absolute top-0 left-0 w-full h-full bg-grid-pattern opacity-10"></div>
+            <div class="absolute top-1/2 left-1/2 w-96 h-96 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 opacity-20 filter blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 z-10 text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4">Antony <span class="gradient-text">Kiplimo</span></h1>
+            <div class="text-2xl md:text-4xl font-light mb-8">
+                <span class="typewriter inline-block">Full Stack Developer</span>
+            </div>
+            <p class="max-w-2xl mx-auto text-lg md:text-xl text-gray-300 mb-12">
+                Building digital experiences that bridge innovation and functionality with cutting-edge web technologies.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <a href="#portfolio" class="btn-glow px-8 py-3 rounded-full gradient-bg text-black font-bold relative overflow-hidden">
+                    <span class="relative z-10">View Portfolio</span>
+                </a>
+                <a href="#contact" class="px-8 py-3 rounded-full border-2 border-primary text-white font-bold hover:bg-primary hover:bg-opacity-10 transition-all duration-300">
+                    Contact Me
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-white">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-darker">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center gradient-text">About Me</h2>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="w-full md:w-1/3 flex justify-center">
+                    <div class="avatar w-64 h-64 rounded-full overflow-hidden relative floating">
+                        <img src="profile photo.jpg" 
+                             alt="Antony Kiplimo" 
+                             class="w-full h-full object-cover">
+                        <div class="absolute inset-0 border-4 border-transparent rounded-full"></div>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-2/3">
+                    <h3 class="text-2xl font-bold mb-4">Innovative Full Stack Developer</h3>
+                    <p class="text-gray-300 mb-6">
+                        I'm Antony Kiplimo, a passionate Full Stack Developer with expertise in building modern web applications. 
+                        With a strong foundation in both frontend and backend technologies, I create seamless digital experiences 
+                        that are performant, scalable, and user-friendly.
+                    </p>
+                    <p class="text-gray-300 mb-6">
+                        My journey in web development began 5 years ago, and since then I've worked with various technologies 
+                        across the stack. I specialize in JavaScript ecosystems (React, Node.js) and Python frameworks (Flask), 
+                        with a keen eye for clean code and efficient architecture.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                            <span class="text-gray-300">Nairobi, Kenya</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-primary mr-2"></i>
+                            <span class="text-gray-300">tonnieblair12@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-primary mr-2"></i>
+                            <span class="text-gray-300">+254 716 241 697</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-dark">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center gradient-text">Technical Skills</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Frontend Skills -->
+                <div class="skill-item card p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-code text-4xl mb-4 gradient-text"></i>
+                        <h3 class="text-xl font-bold mb-2">Frontend</h3>
+                        <ul class="text-gray-300 space-y-1">
+                            <li>HTML5 & CSS3</li>
+                            <li>JavaScript (ES6+)</li>
+                            <li>React.js</li>
+                            <li>Tailwind CSS</li>
+                            <li>Responsive Design</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Backend Skills -->
+                <div class="skill-item card p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-server text-4xl mb-4 gradient-text"></i>
+                        <h3 class="text-xl font-bold mb-2">Backend</h3>
+                        <ul class="text-gray-300 space-y-1">
+                            <li>Node.js</li>
+                            <li>Python (Flask)</li>
+                            <li>RESTful APIs</li>
+                            <li>Microservices</li>
+                            <li>Database Design</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- DevOps Skills -->
+                <div class="skill-item card p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-cloud text-4xl mb-4 gradient-text"></i>
+                        <h3 class="text-xl font-bold mb-2">DevOps</h3>
+                        <ul class="text-gray-300 space-y-1">
+                            <li>Git & GitHub</li>
+                            <li>Docker</li>
+                            <li>CI/CD Pipelines</li>
+                            <li>AWS Basics</li>
+                            <li>Linux Server</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Other Skills -->
+                <div class="skill-item card p-6 rounded-lg">
+                    <div class="text-center">
+                        <i class="fas fa-cogs text-4xl mb-4 gradient-text"></i>
+                        <h3 class="text-xl font-bold mb-2">Other</h3>
+                        <ul class="text-gray-300 space-y-1">
+                            <li>Agile Methodologies</li>
+                            <li>UI/UX Principles</li>
+                            <li>Technical Writing</li>
+                            <li>Problem Solving</li>
+                            <li>Team Leadership</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-html5 text-4xl text-orange-500 mb-2"></i>
+                    <span class="text-sm">HTML5</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-css3-alt text-4xl text-blue-500 mb-2"></i>
+                    <span class="text-sm">CSS3</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-js text-4xl text-yellow-400 mb-2"></i>
+                    <span class="text-sm">JavaScript</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-react text-4xl text-cyan-400 mb-2"></i>
+                    <span class="text-sm">React</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-node-js text-4xl text-green-500 mb-2"></i>
+                    <span class="text-sm">Node.js</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-python text-4xl text-blue-400 mb-2"></i>
+                    <span class="text-sm">Python</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-database text-4xl text-blue-300 mb-2"></i>
+                    <span class="text-sm">SQL</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-git-alt text-4xl text-orange-600 mb-2"></i>
+                    <span class="text-sm">Git</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-docker text-4xl text-blue-300 mb-2"></i>
+                    <span class="text-sm">Docker</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fab fa-aws text-4xl text-orange-400 mb-2"></i>
+                    <span class="text-sm">AWS</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-fire text-4xl text-yellow-500 mb-2"></i>
+                    <span class="text-sm">Flask</span>
+                </div>
+                <div class="skill-item card p-4 rounded-lg flex flex-col items-center justify-center">
+                    <i class="fas fa-terminal text-4xl text-gray-400 mb-2"></i>
+                    <span class="text-sm">CLI</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-20 bg-darker">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center gradient-text">My Projects</h2>
+            
+            <sec class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="1">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="E-commerce Dashboard" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">E-commerce Website</h3>
+                    <p class="text-gray-300 mb-4">A comprehensive e-commerce website complete with payment systems and analytics dashboard for online stores with real-time data visualization.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">React</span>
+                        <span class="px-2 py-1 bg-purple-900 bg-opacity-50 text-purple-300 text-xs rounded">Node.js</span>
+                        <span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 text-xs rounded">MongoDB</span>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="2">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80" 
+                             alt="Task Management App" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Task Management App</h3>
+                    <p class="text-gray-300 mb-4">A collaborative task management application with drag-and-drop functionality.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">React</span>
+                        <span class="px-2 py-1 bg-yellow-900 bg-opacity-50 text-yellow-300 text-xs rounded">Firebase</span>
+                        <span class="px-2 py-1 bg-red-900 bg-opacity-50 text-red-300 text-xs rounded">Redux</span>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="3">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="AI Content Generator" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">AI Content Generator</h3>
+                    <p class="text-gray-300 mb-4">An AI-powered tool that generates marketing content based on user prompts.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">Python</span>
+                        <span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 text-xs rounded">Flask</span>
+                        <span class="px-2 py-1 bg-purple-900 bg-opacity-50 text-purple-300 text-xs rounded">OpenAI API</span>
+                    </div>
+                </div>
+                
+                <!-- Project 4 -->
+                <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="4">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Social Media Dashboard" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Social Media Dashboard</h3>
+                    <p class="text-gray-300 mb-4">A unified dashboard for managing multiple social media accounts and analytics.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">Vue.js</span>
+                        <span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 text-xs rounded">Express</span>
+                        <span class="px-2 py-1 bg-indigo-900 bg-opacity-50 text-indigo-300 text-xs rounded">PostgreSQL</span>
+                    </div>
+                </div>
+                
+                <!-- Project 5 -->
+                <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="5">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" 
+                             alt="Fitness Tracker" 
+                             class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fitness Tracker</h3>
+                    <p class="text-gray-300 mb-4">A mobile-first application for tracking workouts, nutrition, and fitness goals.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">React Native</span>
+                        <span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 text-xs rounded">GraphQL</span>
+                        <span class="px-2 py-1 bg-red-900 bg-opacity-50 text-red-300 text-xs rounded">MongoDB</span>
+                    </div>
+                </div>
+                
+                <!-- Project 6 -->
+                <!-- <div class="project-card card p-6 rounded-lg cursor-pointer" data-project="6">
+                    <div class="h-48 mb-4 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D ">
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fitness Tracker</h3>
+                    <p class="text-gray-300 mb-4">A mobile-first application for tracking workouts, nutrition, and fitness goals.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-2 py-1 bg-blue-900 bg-opacity-50 text-blue-300 text-xs rounded">React Native</span>
+                        <span class="px-2 py-1 bg-green-900 bg-opacity-50 text-green-300 text-xs rounded">GraphQL</span>
+                        <span class="px-2 py-1 bg-red-900 bg-opacity-50 text-red-300 text-xs rounded">MongoDB</span>
+                    </div>
+                </div> -->
+</section>
+                        <!-- Experience Section -->
+                        <section id="experience" class="py-20 bg-darker">
+                            <div class="container mx-auto px-6">
+                                <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center gradient-text">Work Experience</h2>
+                                
+                                <div class="max-w-3xl mx-auto">
+                                    <!-- Experience 1 -->
+                                    <div class="timeline-item relative pl-10 pb-10 border-l-2 border-primary">
+                                        <div class="absolute w-4 h-4 rounded-full bg-primary left-[-8px] top-0"></div>
+                                        <div class="card p-6 rounded-lg">
+                                            <div class="flex flex-col md:flex-row justify-between mb-2">
+                                                <h3 class="text-xl font-bold">Senior Full Stack Developer</h3>
+                                                <span class="text-primary">July 2025 - Present</span>
+                                            </div>
+                                            <h4 class="text-gray-400 mb-4">NovaNet Technologies, Nairobi</h4>
+                                            <ul class="text-gray-300 space-y-2 list-disc pl-5">
+                                                <li>Led a team of 3 developers to build enterprise web applications</li>
+                                                <li>Architected and implemented microservices for scalable backend systems</li>
+                                                <li>Optimized application performance, reducing load times by 40%</li>
+                                                
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Experience 2 -->
+                                    <div class="timeline-item relative pl-10 pb-10 border-l-2 border-primary">
+                                        <div class="absolute w-4 h-4 rounded-full bg-primary left-[-8px] top-0"></div>
+                                        <div class="card p-6 rounded-lg">
+                                            <div class="flex flex-col md:flex-row justify-between mb-2">
+                                                <h3 class="text-xl font-bold">Full Stack Developer</h3>
+                                                <span class="text-primary">Aug 2022 - Aug 2024</span>
+                                            </div>
+                                            <h4 class="text-gray-400 mb-4">Upwork, Freelance</h4>
+                                            <ul class="text-gray-300 space-y-2 list-disc pl-5">
+                                                <li>Developed and maintained 10+ client websites and web applications</li>
+                                                <li>Implemented RESTful APIs for mobile app integrations</li>
+                                                <li>Redesigned UI/UX for better user engagement and conversion</li>
+                                                <li>Automated deployment processes using CI/CD pipelines</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Experience 3 -->
+                                    <div class="timeline-item relative pl-10 pb-10 border-l-2 border-primary">
+                                        <div class="absolute w-4 h-4 rounded-full bg-primary left-[-8px] top-0"></div>
+                                        <div class="card p-6 rounded-lg">
+                                            <div class="flex flex-col md:flex-row justify-between mb-2">
+                                                <h3 class="text-xl font-bold">Web Developer Intern</h3>
+                                                <span class="text-primary">May 2022 - Aug 2022</span>
+                                            </div>
+                                            <h4 class="text-gray-400 mb-4">Uasin-Gishu County IT Department</h4>
+                                            <ul class="text-gray-300 space-y-2 list-disc pl-5">
+                                                <li>Built responsive websites using HTML, CSS and JavaScript</li>
+                                                <li>Assisted in backend development with PHP and MySQL</li>
+                                                <li>Fixed bugs and implemented new features for existing projects</li>
+                                                <li>Participated in team meetings and requirement gathering</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    
+                        <!-- Contact Section -->
+                        <section id="contact" class="py-20 bg-dark">
+                            <div class="container mx-auto px-6">
+                                <h2 class="text-3xl md:text-4xl font-bold mb-16 text-center gradient-text">Get In Touch</h2>
+                                
+                                <div class="flex flex-col md:flex-row gap-12">
+                                    <div class="w-full md:w-1/2">
+                                        <h3 class="text-2xl font-bold mb-4">Contact Information</h3>
+                                        <p class="text-gray-300 mb-6">
+                                            Feel free to reach out to me for any questions or opportunities. I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision.
+                                        </p>
+                                        
+                                        <div class="space-y-4">
+                                            <div class="flex items-start">
+                                                <i class="fas fa-envelope text-primary mt-1 mr-4"></i>
+                                                <div>
+                                                    <h4 class="font-bold text-white">Email</h4>
+                                                    <a href="mailto:tonnieblair12@gmail.com" class="text-gray-300 hover:text-primary transition">tonnieblair12@gmail.com</a>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <i class="fas fa-phone text-primary mt-1 mr-4"></i>
+                                                <div>
+                                                    <h4 class="font-bold text-white">Phone</h4>
+                                                    <a href="tel:+254716241697" class="text-gray-300 hover:text-primary transition">+254 716 241 697</a>
+                                                </div>
+                                            </div>
+                                            <div class="flex items-start">
+                                                <i class="fab fa-whatsapp text-primary mt-1 mr-4"></i>
+                                                <div>
+                                                    <h4 class="font-bold text-white">WhatsApp</h4>
+                                                    <a href="https://wa.me/254716241697" target="_blank" class="text-gray-300 hover:text-primary transition">Chat on WhatsApp</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="w-full md:w-1/2">
+                                        <form class="space-y-6">
+                                            <div class="relative">
+                                                <input type="text" id="name" class="form-input w-full bg-darker border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:outline-none" placeholder=" ">
+                                                <label for="name" class="floating-label text-gray-400">Your Name</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input type="email" id="email" class="form-input w-full bg-darker border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:outline-none" placeholder=" ">
+                                                <label for="email" class="floating-label text-gray-400">Your Email</label>
+                                            </div>
+                                            <div class="relative">
+                                                <input type="text" id="subject" class="form-input w-full bg-darker border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:outline-none" placeholder=" ">
+                                                <label for="subject" class="floating-label text-gray-400">Subject</label>
+                                            </div>
+                                            <div class="relative">
+                                                <textarea id="message" rows="4" class="form-input w-full bg-darker border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-primary focus:outline-none" placeholder=" "></textarea>
+                                                <label for="message" class="floating-label text-gray-400">Your Message</label>
+                                            </div>
+                                            <button type="submit" class="btn-glow px-8 py-3 rounded-full gradient-bg text-black font-bold relative overflow-hidden w-full">
+                                                <span class="relative z-10">Send Message</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+</html>
